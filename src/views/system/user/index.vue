@@ -142,6 +142,7 @@
                         v-model="scope.row.status"
                         active-value="0"
                         inactive-value="1"
+                        
                         @change="handleStatusChange(scope.row)"
                      ></el-switch>
                   </template>
@@ -459,6 +460,12 @@ function handleExport() {
 };
 /** 用户状态修改  */
 function handleStatusChange(row) {
+   console.log(row.userName);
+   if(row.userName == "admin"){
+      proxy.$modal.msgError("超级管理员不允许修改");
+      row.status = row.status === "0" ? "1" : "0";
+      return;
+   }
   let text = row.status === "0" ? "启用" : "停用";
   proxy.$modal.confirm('确认要"' + text + '""' + row.userName + '"用户吗?').then(function () {
     return changeUserStatus(row.userId, row.status);

@@ -46,13 +46,23 @@ export function addBanner (data) {
 }
 
 // 修改
+// export function updateBanner (data) {
+//   return request({
+//     url: '/system/product/update',
+//     method: 'put',
+//     data: data
+//   })
+// }
+
 export function updateBanner (data) {
   return request({
-    url: '/system/product/update',
+    url: '/system/product/updateProduct',
     method: 'put',
     data: data
   })
 }
+
+
 
 
 

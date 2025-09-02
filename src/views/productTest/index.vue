@@ -122,7 +122,7 @@ import WangEditor from "@/components/WangEditor/index.vue"
 import Cookies from 'js-cookie'
 
 // 获取环境变量中的基础URL
-const baseUrl = import.meta.env.VITE_APP_BASE_API || 'https://www.amozici.com'
+const baseUrl = import.meta.env.VITE_IMG_BASE_API || 'https://www.amozici.com'
 
 const queryFormRef = ref()
 const roleFormRef = ref()

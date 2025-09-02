@@ -17,8 +17,8 @@
               :preview-src-list="[`${baseUrl}${scope.row.fileUrl}`]" hide-on-click-modal preview-teleported />
           </template>
         </el-table-column>
-        <!-- <el-table-column :label="创建时间" prop="name" min-width="100" align="center" />
-        <el-table-column :label="更新时间" prop="name" min-width="100" align="center" /> -->
+        <el-table-column :label="创建时间" prop="createTime" min-width="100" align="center" />
+        <el-table-column :label="更新时间" prop="updateTime" min-width="100" align="center" />
         <el-table-column fixed="right" label="操作" width="220" align="center">
           <template #default="scope">
             <el-button type="primary" size="small" link icon="edit" @click="handleOpenDialog(scope.row)">
@@ -77,7 +77,7 @@ import { listBanner, addBanner, updateBanner, delBanner } from "@/api/banner/ind
 import Cookies from 'js-cookie'
 
 // 获取环境变量中的基础URL
-const baseUrl = import.meta.env.VITE_APP_BASE_API || 'https://www.amozici.com'
+const baseUrl = import.meta.env.VITE_IMG_BASE_API || 'https://www.amozici.com'
 
 const queryFormRef = ref()
 const roleFormRef = ref()

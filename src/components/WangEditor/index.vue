@@ -21,8 +21,8 @@
 <script setup>
 import "@wangeditor-next/editor/dist/css/style.css";
 import { Toolbar, Editor } from "@wangeditor-next/editor-for-vue";
-import {articleUploadFiles} from "@/api/file.js"
-
+import {articleUploadFiles,productUploadFiles,uploadFiles} from "@/api/file.js"
+import { useRoute } from 'vue-router';
 // 文件上传 API
 // import FileAPI from "@/api/file.api";
 
@@ -51,7 +51,7 @@ const modelValue = computed({
   set: (value) => emit('update:modelValue', value)
 })
 
-const baseUrl = import.meta.env.VITE_APP_BASE_API || 'https://www.amozici.com'
+const baseUrl = import.meta.env.VITE_IMG_BASE_API || 'https://www.amozici.com'
 
 
 // 编辑器实例，必须用 shallowRef，重要！
@@ -59,6 +59,27 @@ const editorRef = shallowRef();
 
 // 工具栏配置
 const toolbarConfig = ref({});
+// // 编辑器配置
+// const editorConfig = ref({
+//   placeholder: "请输入内容...",
+//   MENU_CONF: {
+//     uploadImage: {
+//       customUpload(file, insertFn) {
+//         console.log('file',file)
+//         const formDatas = new FormData()
+//         formDatas.append('file', file)
+
+//         // 上传article图片
+//         articleUploadFiles(formDatas).then((res) => {
+//           console.log('res',res)
+//           // 插入图片
+//           // insertFn(res.url, res.name, res.url);
+//           insertFn(`${baseUrl}${res.data}`);
+//         });
+//       },
+//     },
+//   },
+// });
 
 // 编辑器配置
 const editorConfig = ref({
@@ -66,17 +87,27 @@ const editorConfig = ref({
   MENU_CONF: {
     uploadImage: {
       customUpload(file, insertFn) {
-        console.log('file',file)
-        const formDatas = new FormData()
-        formDatas.append('file', file)
+        console.log('file', file);
+        const formDatas = new FormData();
+        formDatas.append('file', file);
 
-        // 上传图片
-        articleUploadFiles(formDatas).then((res) => {
-          console.log('res',res)
-          // 插入图片
-          // insertFn(res.url, res.name, res.url);
-          insertFn(`${baseUrl}${res.data}`);
-        });
+        const route = useRoute(); // 获取当前路由信息
+        const path = route.path;  // 当前路由路径
+
+        // 根据路由决定调用哪个上传接口
+        if (path.includes('/article')) {
+          articleUploadFiles(formDatas).then((res) => {
+            insertFn(`${baseUrl}${res.data}`);
+          });
+        } else if (path.includes('/product')) {
+          productUploadFiles(formDatas).then((res) => {
+            insertFn(`${baseUrl}${res.data}`);
+          });
+        } else {
+          uploadFiles(formDatas).then((res) => {
+            insertFn(`${baseUrl}${res.data}`);
+          });
+        }
       },
     },
   },

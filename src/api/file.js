@@ -28,4 +28,18 @@ export function articleUploadFiles (data) {
   })
 }
 
+// product页面的富文本上传图片
+export function productUploadFiles (data) {
+  return request({
+    headers: {
+      "Content-Type": "multipart/form-data",
+      // isToken: false
+    },
+    url: "/system/product/uploadAndAddProduct",
+    method: "post",
+    data,
+  })
+}
+
+
 

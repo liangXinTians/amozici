@@ -50,10 +50,12 @@
     <el-dialog v-model="dialog.visible" :title="dialog.title" width="1000px" @close="handleCloseDialog">
       <el-form ref="roleFormRef" :model="formData" :rules="rules" label-width="100px">
         <el-form-item label="标题：" prop="title">
-          <el-input v-model="formData.title" style="width: 240px" />
+          <el-input v-model="formData.title"  />
         </el-form-item>
         <el-form-item label="摘要：" prop="summary">
-          <el-input v-model="formData.summary" style="width: 240px" />
+          <!-- <el-input v-model="formData.summary" style="width: 240px" /> -->
+          <el-input v-model="formData.summary" placeholder="请输入" type="textarea"
+            :autosize="{ minRows: 3, maxRows: 6 }"></el-input>
         </el-form-item>
         <el-form-item label="封面图：" prop="file">
           <imageUploads v-model="formData.file" :limit="1" :initial-url="formData.initialImageUrl"
@@ -220,6 +222,11 @@ function handleSubmit () {
 
   roleFormRef.value.validate((valid) => {
     if (valid) {
+      if (!formData.summary || formData.summary.trim() === '') {
+        ElMessage.error("请输入摘要")
+        return
+      }
+      
       // 编辑时如果没有上传新图片且没有初始图片，则验证失败
       if (dialog.title === "修改" && !formData.file && !formData.initialImageUrl) {
         ElMessage.error("请上传图片")
